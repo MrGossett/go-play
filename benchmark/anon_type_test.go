@@ -8,15 +8,15 @@ import (
 )
 
 type definedType struct {
-	str string
+	Str string `json:"string"`
 }
 
 func BenchmarkDefinedType(b *testing.B) {
 	var v definedType
 	for n := 0; n < b.N; n++ {
-		v = definedType{str: "foo"}
+		v = definedType{Str: "foo"}
 	}
-	if v.str != "" {
+	if v.Str != "" {
 		// no-op
 	}
 }
@@ -25,9 +25,9 @@ func BenchmarkInlineType(b *testing.B) {
 	var v interface{}
 	for n := 0; n < b.N; n++ {
 		type inlineType struct {
-			str string
+			Str string `json:"string"`
 		}
-		v = inlineType{str: "foo"}
+		v = inlineType{Str: "foo"}
 	}
 	if v != nil {
 		// no-op
@@ -37,7 +37,11 @@ func BenchmarkInlineType(b *testing.B) {
 func BenchmarkAnonymousType(b *testing.B) {
 	var v interface{}
 	for n := 0; n < b.N; n++ {
-		v = struct{ str string }{str: "foo"}
+		v = struct {
+			Str string `json:"string"`
+		}{
+			Str: "foo",
+		}
 	}
 	if v != nil {
 		// no-op
@@ -49,7 +53,7 @@ var enc = json.NewEncoder(ioutil.Discard)
 func BenchmarkDefinedTypeEncoded(b *testing.B) {
 	var v definedType
 	for n := 0; n < b.N; n++ {
-		v = definedType{str: "foo"}
+		v = definedType{Str: "foo"}
 		enc.Encode(v)
 	}
 }
@@ -58,9 +62,9 @@ func BenchmarkInlineTypeEncoded(b *testing.B) {
 	var v interface{}
 	for n := 0; n < b.N; n++ {
 		type inlineType struct {
-			str string
+			Str string `json:"string"`
 		}
-		v = inlineType{str: "foo"}
+		v = inlineType{Str: "foo"}
 		enc.Encode(v)
 	}
 }
@@ -68,7 +72,11 @@ func BenchmarkInlineTypeEncoded(b *testing.B) {
 func BenchmarkAnonymousTypeEncoded(b *testing.B) {
 	var v interface{}
 	for n := 0; n < b.N; n++ {
-		v = struct{ str string }{str: "foo"}
+		v = struct {
+			Str string `json:"string"`
+		}{
+			Str: "foo",
+		}
 		enc.Encode(v)
 	}
 }
