@@ -49,18 +49,22 @@ func draw(d int, f formatter) {
 }
 
 func theX(line []byte, i, d int) {
-	line[2*i+1] = x
-	line[2*d-2*i-1] = x
+	line[offset(i)] = x
+	line[offset(d-i-1)] = x
 }
 
 func stripes(line []byte, i, d int) {
 	for i := 0; i < d/2+d%2; i++ {
-		line[4*i+1] = x
+		line[offset(2*i)] = x
 	}
 }
 
 func diamond(line []byte, i, d int) {
-	i = (i + d/2) % d
-	line[2*i+1] = x
-	line[2*d-2*i-1] = x
+	r := i + d/2
+	line[offset(r%d+r/d)] = x
+	line[offset((d-i+d/2)%d-r/d)] = x
+}
+
+func offset(col int) int {
+	return 2*col + 1
 }
