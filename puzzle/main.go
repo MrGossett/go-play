@@ -15,6 +15,8 @@ func main() {
 	draw(d, theX)
 	print("\n")
 	draw(d, stripes)
+	print("\n")
+	draw(d, diamond)
 }
 
 var (
@@ -50,4 +52,10 @@ func stripes(line []byte, i, d int) {
 	for i := 0; i < d/2+d%2; i++ {
 		line[4*i+1] = x
 	}
+}
+
+func diamond(line []byte, i, d int) {
+	i = (i + d/2) % d
+	line[2*i+1] = x
+	line[2*d-2*i-1] = x
 }
