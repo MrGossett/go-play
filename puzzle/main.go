@@ -12,11 +12,14 @@ func main() {
 		log.Fatal(err)
 	}
 
-	draw(d, theX)
-	print("\n")
-	draw(d, stripes)
-	print("\n")
-	draw(d, diamond)
+	for _, f := range []formatter{
+		theX,
+		stripes,
+		diamond,
+	} {
+		draw(d, f)
+		print("\n")
+	}
 }
 
 var (
@@ -26,7 +29,9 @@ var (
 	x       = byte(120)
 )
 
-func draw(d int, formatter func(line []byte, i, d int)) {
+type formatter func(line []byte, i, d int)
+
+func draw(d int, f formatter) {
 	tmpl := make([]byte, d*2+2)
 	tmpl[len(tmpl)-1] = newline
 	tmpl[len(tmpl)-2] = pipe
@@ -38,7 +43,7 @@ func draw(d int, formatter func(line []byte, i, d int)) {
 	for i := 0; i < d; i++ {
 		line := make([]byte, len(tmpl))
 		copy(line, tmpl)
-		formatter(line, i, d)
+		f(line, i, d)
 		print(string(line))
 	}
 }
