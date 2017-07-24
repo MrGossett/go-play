@@ -1,0 +1,23 @@
+This is a test file. It has a long hex string at the end.
+
+Here's some example code:
+
+```bash
+#!/bin/bash
+
+head -c 1024 /dev/zero > 1kzero
+```
+
+and then a long hex string:
+
+"0782e4a854ed463374efba7979c2012927f1a9ae"
+
+and a long base64 string:
+
+"dBDMz7s3UFd6BjUIcii2dg=="
+
+and some more text after all that.
+
+ThisIsLessRandomButStillHighEntropyDueToLength
+
+ThisIsLowEntropy
