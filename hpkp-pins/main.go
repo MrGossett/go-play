@@ -1,7 +1,9 @@
 package main
 
 import (
+	"crypto/sha256"
 	"crypto/tls"
+	"encoding/base64"
 	"flag"
 	"fmt"
 	"log"
@@ -23,6 +25,8 @@ func main() {
 	defer conn.Close()
 
 	for _, c := range conn.ConnectionState().PeerCertificates {
-		fmt.Println(c.Subject.CommonName)
+		digest := sha256.Sum256(c.RawSubjectPublicKeyInfo)
+		pin := base64.StdEncoding.EncodeToString(digest[:])
+		fmt.Printf("%s : %s\n", pin, c.Subject.CommonName)
 	}
 }
